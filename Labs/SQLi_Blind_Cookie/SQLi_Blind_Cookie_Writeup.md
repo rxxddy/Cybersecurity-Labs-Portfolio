@@ -4,7 +4,7 @@ This report details the successful exploitation of a **Boolean-based Blind SQL I
 
 ---
 
-## 🛡️ Vulnerability Summary
+## Vulnerability Summary
 
 | Category | Type | Risk Level | Target Parameter |
 | :--- | :--- | :--- | :--- |
