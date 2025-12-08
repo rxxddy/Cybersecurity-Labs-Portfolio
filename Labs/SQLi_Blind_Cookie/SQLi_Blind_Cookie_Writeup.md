@@ -15,7 +15,7 @@ This report details the successful exploitation of a **Boolean-based Blind SQL I
 
 ---
 
-## 🛠️ Methodology and Exploitation
+## Methodology and Exploitation
 
 ### 1. Initial Setup and Syntax Confirmation
 
