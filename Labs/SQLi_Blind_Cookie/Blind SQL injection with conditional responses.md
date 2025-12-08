@@ -21,7 +21,7 @@ This report details the successful exploitation of a **Boolean-based Blind SQL I
 
 The initial challenge was establishing the correct injection syntax to bypass the string context and comment out the rest of the query.
 
-* **Original Tracking ID (Placeholder):** `RN1veNE5nFOnpJ1a`
+* **Original Tracking ID (Placeholder):** `RN1PeNE5lFOnpJ1a`
 * **Working Prefix:** The string was closed using a single quote (`'`), followed by the logical operator `AND`.
     * **Final Working Payload:** `PLACEHOLDER_ID' AND [CONDITION] --`
 
