@@ -1,62 +1,34 @@
-# Blind SQL Injection Writeup (Boolean-Based)
+# Cybersecurity and Penetration Testing Portfolio
 
-This repository section documents the successful exploitation of a **Blind SQL Injection** vulnerability (Boolean-based) found in the `TrackingId` cookie of a web application. The goal was to extract the password for the administrator user from the database.
+## Professional Summary
 
----
+I am a dedicated student and practitioner of Offensive Security, specializing in the identification, exploitation, and professional documentation of security vulnerabilities in web applications and network infrastructure. This repository functions as a technical portfolio, showcasing practical skills acquired through formal training and hands-on laboratory exercises.
 
-## Vulnerability Summary
+The focus of this work is to demonstrate proficiency in core penetration testing methodologies, emphasizing clear technical reporting and systematic vulnerability analysis.
 
-| Category | Type | Risk Level | Target |
+## Core Technical Skills
+
+| Category | Proficiency and Tools |
+| :--- | :--- |
+| **Web Application Security** | In-depth understanding and exploitation of OWASP Top 10 vulnerabilities, including Blind SQL Injection, XSS, CSRF, insecure authentication, and logic flaws. |
+| **Penetration Testing Tools** | **Burp Suite** (Proficient in Repeater, Scanner, and Intruder for automated attacks), Nmap, Metasploit Framework, Dirb/Gobuster, and network analysis tools. |
+| **Scripting and Automation** | Python (Developing custom scripts for exploit writing, data manipulation, and task automation), Bash/Shell scripting. |
+| **Methodologies** | Adherence to industry standards such as the Penetration Testing Execution Standard (PTES) and systematic vulnerability scoring (CVSS). |
+| **Operating Environments** | Expertise in Kali Linux, Windows Server, and setting up isolated virtual laboratory environments (VMware/VirtualBox). |
+
+## Projects and Technical Writeups
+
+This section lists detailed technical writeups, each documenting the full lifecycle of a security engagement, from initial reconnaissance to successful exploitation and remediation.
+
+| Project Title | Vulnerability Type | Tools Used | Status |
 | :--- | :--- | :--- | :--- |
-| **Vulnerability** | Blind SQL Injection (Boolean-based) | Critical | `TrackingId` Cookie Parameter |
-| **Goal** | Extract `password` from the `users` table for user 'administrator'. |
-| **Database Response** | No direct data output or error messages were returned. The page included a "Welcome back" message only if the injected query returned any rows (i.e., the condition was TRUE). |
+| [Lab 01] Administrative Credential Extraction | Blind SQL Injection (Boolean-based) | Burp Suite (Intruder) | Completed |
+| [Project 02] | [Vulnerability Type] | [Tools] | In Progress |
+| [Project 03] | [Vulnerability Type] | [Tools] | Planning |
 
----
+**[Link to Lab 01 Writeup]**
 
-## Tools Used
+## Education and Certifications
 
-* Burp Suite Community Edition (Repeater, Intruder - Sniper mode).
-* Operating System: Kali Linux.
-
----
-
-## Exploitation Methodology (Proof of Concept)
-
-The attack required injecting a subquery into the `TrackingId` cookie and comparing its result to a known value. The indicator of a TRUE condition was a difference in the HTTP response body size (Response received: 49 vs 46).
-
-### 1. Finding the Working Syntax
-
-The working syntax was found to be:
-
-Initial Working Syntax: `Dk0C4X2x5SPdmdPo' AND [CONDITION] --`
-
-### 2. Determining Password Length
-
-The `LENGTH()` function was used to determine the total number of characters.
-
-* Payload Example: `Dk0C4X2x5SPdmdPo' AND (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password)>18)='a`
-* Result: The password length was determined to be **19 characters**.
-
-### 3. Character Extraction using Intruder
-
-Burp Intruder was used in **Sniper Attack** mode to automate the character guessing process. The `SUBSTRING()` function was employed, and a Simple List payload set (a-z, 0-9) was configured.
-
-* **Extraction Payload Template:**
-    ```
-    Dk0C4X2x5SPdmdPo' AND (SELECT SUBSTRING(password, N, 1) FROM users WHERE username='administrator')='§C§
-    ```
-    (Where `N` is the character position, and `C` is the payload being tested).
-
----
-
-## Final Result
-
-The full password was successfully extracted by iterating the position **N** from 1 to 19.
-
-**Extracted Administrator Password:** nl4czzbfq87hltowm0o8
-
-**Proof:** Successfully logged in as the administrator user using the extracted password.
-
-* [Screenshot of Burp Intruder results showing the TRUE condition for the correct character.]
-* [Screenshot of the successful login confirmation page.]
+* [Add your course or university program here]
+* [Add any relevant certifications (e.g., CompTIA Security+, CEH, or similar)]
