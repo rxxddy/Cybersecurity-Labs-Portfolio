@@ -20,14 +20,14 @@ The focus of this work is to demonstrate proficiency in core penetration testing
 
 This section lists detailed technical writeups, each documenting the full lifecycle of a security engagement, from initial reconnaissance to successful exploitation and remediation.
 
-### 🚩 CTF Walkthroughs (VulnHub / HackTheBox)
+### CTF Walkthroughs (VulnHub / HackTheBox)
 
 | Project Title | Vulnerability Focus | Tools Used | Report Link |
 | :--- | :--- | :--- | :--- |
 | **SkyTower 1** | SQL Injection, Proxy Tunneling, Path Traversal | Nmap, ProxyChains, MySQL | [View Report](Labs/VulnHub/SkyTower.md) |
 | **Ted: 1** | Web Enumeration, Privilege Escalation | Nmap, Dirb/Gobuster | [View Report](Labs/VulnHub/Ted1.md) |
 
-### 🔬 Web Security Labs (PortSwigger / OWASP)
+### Web Security Labs (PortSwigger / OWASP)
 
 | Lab Title | Vulnerability Type | Technique | Report Link |
 | :--- | :--- | :--- | :--- |
