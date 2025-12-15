@@ -1,5 +1,5 @@
 
-# 🛡️ Penetration Testing Report: Ted 1 (VulnHub)
+# Penetration Testing Report: Ted 1 (VulnHub)
 
 | **Target** | **IP Address** | **Difficulty** | **Date** | **Tester** |
 | :--- | :--- | :--- | :--- | :--- |
