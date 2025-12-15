@@ -24,8 +24,8 @@ This section lists detailed technical writeups, each documenting the full lifecy
 
 | Project Title | Vulnerability Focus | Tools Used | Report Link |
 | :--- | :--- | :--- | :--- |
-| **SkyTower 1** | SQL Injection, Proxy Tunneling, Path Traversal | Nmap, ProxyChains, MySQL | [View Report](Labs/VulnHub/SkyTower.md) |
-| **Ted: 1** | Web Enumeration, Privilege Escalation | Nmap, Dirb/Gobuster | [View Report](Labs/VulnHub/Ted1.md) |
+| **SkyTower 1** | SQL Injection, Proxy Tunneling, Path Traversal | Nmap, ProxyChains, MySQL | [View Report](VulnHub/SkyTower.md) |
+| **Ted: 1** | Web Enumeration, Privilege Escalation | Nmap, Dirb/Gobuster | [View Report](VulnHub/Ted1.md) |
 
 ### 🔬 Web Security Labs (PortSwigger / OWASP)
 
