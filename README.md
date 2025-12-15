@@ -20,15 +20,20 @@ The focus of this work is to demonstrate proficiency in core penetration testing
 
 This section lists detailed technical writeups, each documenting the full lifecycle of a security engagement, from initial reconnaissance to successful exploitation and remediation.
 
-| Project Title | Vulnerability Type | Tools Used | Status |
+### 🚩 CTF Walkthroughs (VulnHub / HackTheBox)
+
+| Project Title | Vulnerability Focus | Tools Used | Report Link |
 | :--- | :--- | :--- | :--- |
-| [Lab 01] Administrative Credential Extraction | Blind SQL Injection (Boolean-based) | Burp Suite (Intruder) | Completed |
-| [Project 02] | [Vulnerability Type] | [Tools] | In Progress |
-| [Project 03] | [Vulnerability Type] | [Tools] | Planning |
+| **SkyTower 1** | SQL Injection, Proxy Tunneling, Path Traversal | Nmap, ProxyChains, MySQL | [View Report](Labs/VulnHub/SkyTower.md) |
+| **Ted: 1** | Web Enumeration, Privilege Escalation | Nmap, Dirb/Gobuster | [View Report](Labs/VulnHub/Ted1.md) |
 
-**[Link to Lab 01 Writeup]**
+### 🔬 Web Security Labs (PortSwigger / OWASP)
 
-## Education and Certifications
+| Lab Title | Vulnerability Type | Technique | Report Link |
+| :--- | :--- | :--- | :--- |
+| **Blind SQL Injection** | SQL Injection (Blind) | Conditional Responses Exploitation | [View Report](Labs/Portswigger%20SQLi/Blind%20SQL%20injection%20with%20conditional%20responses.md) |
+| **Blind SQL Injection** | SQL Injection (Blind) | Conditional Errors Exploitation | [View Report](Labs/Portswigger%20SQLi/Blind%20SQL%20injection%20with%20conditional%20errors.md) |
+| **Reflected XSS** | Cross-Site Scripting | Reflected Payload | [View Report](Labs/XSS_Reflected/README.md) |
 
-* [Add your course or university program here]
-* [Add any relevant certifications (e.g., CompTIA Security+, CEH, or similar)]
+---
+*Note: This portfolio is continuously updated as I complete new challenges and certifications.*
