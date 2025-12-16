@@ -1,10 +1,5 @@
 # Penetration Test Report: Development (VulnHub)
 
-**Date:** December 16, 2025
-**Target IP:** 192.168.56.107
-**Attacker IP:** 192.168.56.102
-**Security Level:** Critical
-
 -----
 
 ## 1\. Executive Summary
