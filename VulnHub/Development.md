@@ -47,7 +47,7 @@ Using `hashcat` with Mode 0 (MD5) and the `rockyou.txt` wordlist, we analyzed th
 
   * **Hash:** `4a8a2b374f463b7aedbb44a066363b81`
   * **Result:** `patrick`
-  * **Observation:** The user `intern` uses the password `patrick`.
+  * **Observation:** The user `intern` uses the password `12345678900987654321`.
 
 **2. Patrick User:**
 
