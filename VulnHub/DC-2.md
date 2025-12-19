@@ -169,9 +169,9 @@ sudo git -p help config
 **Execution:**
 
 1. The command opened the manual page in the pager.
-2. At the bottom of the screen, we typed `!/bin/sh` and pressed Enter.
+2. At the bottom of the screen, we typed `!/bin/bash` and pressed Enter.
 * **`!`**: In `less`/`vi` pagers, the exclamation mark tells the system to "execute a shell command".
-* **`/bin/sh`**: The command we executed was to spawn a new shell.
+* **`/bin/bash`**: The command we executed was to spawn a new shell.
 
 
 3. Since `git` was running as root (via sudo), the spawned shell also possessed root privileges.
