@@ -47,3 +47,4 @@ The core of the lab involved auditing the system for **Capabilities**.
 System successfully compromised. The final flag was located in `/root/final.txt`.
 
 **Key Lesson:** Linux Capabilities are a powerful but dangerous alternative to SUID. While intended to provide "least privilege," a single misplaced capability like `cap_setuid` on a versatile binary like Perl provides a direct path to full system takeover. Manual enumeration (checking both `sudo -l` and `getcap`) is essential when automated tools fail.
+
