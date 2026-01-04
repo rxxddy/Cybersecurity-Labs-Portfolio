@@ -24,9 +24,7 @@ Personal repository for documenting my progress in penetration testing, web secu
 ---
 
 <div align="center">
-  <p><i>Wait... what is this?</i></p>
   <a href="./Curiosity_Killed_The_Cat/But_Satisfaction_Brought_It_Back/Wait_Are_You_Still_Clicking/I_Admire_Your_Persistence/Now_Get_A_Life/Seriously_The_Sun_Is_Outside/Last_Chance_To_Go_Back/Fine_You_Win/">
-    <img src="https://raw.githubusercontent.com/rxxddy/Cybersecurity-Labs-Portfolio/refs/heads/main/Curiosity_Killed_The_Cat/But_Satisfaction_Brought_It_Back/Wait_Are_You_Still_Clicking/I_Admire_Your_Persistence/Now_Get_A_Life/Seriously_The_Sun_Is_Outside/Last_Chance_To_Go_Back/Fine_You_Win/flag_is_not_here.jpg" width="350" alt="Hidden Reward">
+    <img src="https://raw.githubusercontent.com/rxxddy/Cybersecurity-Labs-Portfolio/refs/heads/main/Curiosity_Killed_The_Cat/But_Satisfaction_Brought_It_Back/Wait_Are_You_Still_Clicking/I_Admire_Your_Persistence/Now_Get_A_Life/Seriously_The_Sun_Is_Outside/Last_Chance_To_Go_Back/Fine_You_Win/flag_is_not_here.jpg" width="550" alt="Hidden Reward">
   </a>
-  <p><b>You actually clicked through all those folders? Respect.</b></p>
 </div>
